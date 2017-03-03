@@ -71,12 +71,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\bin\$(ProjectName)\$(Platform)\$(Configuration)\Interm\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>..\bin\$(ProjectName)\$(Platform)\$(Configuration)\Interm\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -110,7 +114,7 @@
       <AdditionalDependencies>softhsm2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\$(Platform)\$(Configuration)</Command>
+      <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\bin\$(ProjectName)\$(Platform)\$(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -152,7 +156,7 @@
       <AdditionalDependencies>softhsm2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\$(Platform)\$(Configuration)</Command>
+      <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\bin\$(ProjectName)\$(Platform)\$(Configuration)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
