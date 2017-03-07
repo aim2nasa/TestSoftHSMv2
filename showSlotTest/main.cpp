@@ -81,6 +81,8 @@ int showSlots(CK_FUNCTION_LIST_PTR p11)
 		cout << "\t\tDescription :" << str.c_str() << endl;
 		str.assign((char*)&slotInfo.manufacturerID, sizeof(slotInfo.manufacturerID));
 		cout << "\t\tManufacturer ID :" << str.c_str() << endl;
+		cout << "\t\tHardware version :" << (int)slotInfo.hardwareVersion.major << "." << (int)slotInfo.hardwareVersion.minor << endl;
+		cout << "\t\tFirmware version :" << (int)slotInfo.firmwareVersion.major << "." << (int)slotInfo.firmwareVersion.minor << endl;
 		cout << "\t\tToken present :";
 		if ((slotInfo.flags & CKF_TOKEN_PRESENT) == 0) {
 			cout << "no" << endl;
