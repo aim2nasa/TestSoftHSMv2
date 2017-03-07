@@ -22,6 +22,18 @@ int main(int argc, char* argv[]) {
 	}
 	cout <<"0x"<<hex<< pGetFunctionList << " C_GetFunctionList retrived" << endl;
 
+	// Load the function list
+	CK_FUNCTION_LIST_PTR p11 = NULL;
+	(*pGetFunctionList)(&p11);
+
+	// Initialize the library
+	if (p11->C_Initialize(NULL_PTR) != CKR_OK) {
+		cout << "ERROR: Could not initialize the library" << endl;
+		FreeLibrary(hDLL);
+		return -1;
+	}
+	cout << "library initialized" << endl;
+
 	FreeLibrary(hDLL);
 	cout << "end of list slot" << endl;
 	return 0;
