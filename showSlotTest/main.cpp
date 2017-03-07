@@ -89,6 +89,38 @@ int showSlots(CK_FUNCTION_LIST_PTR p11)
 			continue;
 		}
 		cout << "yes" << endl;
+
+		CK_TOKEN_INFO tokenInfo;
+		if (p11->C_GetTokenInfo(pSlotList[i], &tokenInfo) != CKR_OK) {
+			cout << "Couldn't get token info in slot : 0x" << hex << pSlotList[i] << dec << " (" << pSlotList[i] << ")" << endl;
+			continue;
+		}
+		cout << "\tGet token info in slot : 0x" << hex << pSlotList[i] << dec << " (" << pSlotList[i] << ")" << endl;
+
+		cout << "\tToken info :" << endl;
+
+		str.assign((char*)&tokenInfo.manufacturerID, sizeof(tokenInfo.manufacturerID));
+		cout << "\t\tManufacturer ID :" << str.c_str() << endl;
+		str.assign((char*)&tokenInfo.model, sizeof(tokenInfo.model));
+		cout << "\t\tModel :" << str.c_str() << endl;
+		cout << "\t\tHardware version :" << (int)tokenInfo.hardwareVersion.major << "." << (int)tokenInfo.hardwareVersion.minor << endl;
+		cout << "\t\tFirmware version :" << (int)tokenInfo.firmwareVersion.major << "." << (int)tokenInfo.firmwareVersion.minor << endl;
+		str.assign((char*)&tokenInfo.serialNumber, sizeof(tokenInfo.serialNumber));
+		cout << "\t\tSerial number :" << str.c_str() << endl;
+		cout << "\t\tInitialized :";
+		if ((tokenInfo.flags & CKF_TOKEN_INITIALIZED) == 0)
+			cout << "no" << endl;
+		else
+			cout << "yes" << endl;
+
+		cout << "\t\tUser PIN init :";
+		if ((tokenInfo.flags & CKF_USER_PIN_INITIALIZED) == 0)
+			cout << "no" << endl;
+		else
+			cout << "yes" << endl;
+
+		str.assign((char*)&tokenInfo.label, sizeof(tokenInfo.label));
+		cout << "\t\tLabel :" << str.c_str() << endl;
 	}
 
 	free(pSlotList);
