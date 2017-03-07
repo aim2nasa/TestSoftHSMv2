@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
 	if (pGetFunctionList == NULL) {
 		cout << "getProcAddress failed : " << GetLastError() << endl;
 		FreeLibrary(hDLL);
-		return NULL;
+		return -1;
 	}
 	cout <<"0x"<<hex<< pGetFunctionList << " C_GetFunctionList retrived" << endl;
 
