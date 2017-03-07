@@ -14,7 +14,13 @@ int main(int argc, char* argv[]) {
 	}
 	cout << DEFAULT_PKCS11_LIB<<" loaded" << endl;
 
-	CK_C_GetFunctionList pGetFunctionList = NULL;
+	CK_C_GetFunctionList pGetFunctionList = (CK_C_GetFunctionList)GetProcAddress(hDLL, "C_GetFunctionList");
+	if (pGetFunctionList == NULL) {
+		cout << "getProcAddress failed : " << GetLastError() << endl;
+		FreeLibrary(hDLL);
+		return NULL;
+	}
+	cout <<"0x"<<hex<< pGetFunctionList << " C_GetFunctionList retrived" << endl;
 
 	FreeLibrary(hDLL);
 	cout << "end of list slot" << endl;
