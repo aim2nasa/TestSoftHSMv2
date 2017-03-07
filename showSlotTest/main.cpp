@@ -73,6 +73,20 @@ int showSlots(CK_FUNCTION_LIST_PTR p11)
 			continue;
 		}
 		cout << "Slot : 0x" << hex << pSlotList[i] << dec << " (" << pSlotList[i] << ")" << endl;
+
+		cout << "\tSlot info :" << endl;
+		string str;
+
+		str.assign((char*)&slotInfo.slotDescription, sizeof(slotInfo.slotDescription));
+		cout << "\t\tDescription :" << str.c_str() << endl;
+		str.assign((char*)&slotInfo.manufacturerID, sizeof(slotInfo.manufacturerID));
+		cout << "\t\tManufacturer ID :" << str.c_str() << endl;
+		cout << "\t\tToken present :";
+		if ((slotInfo.flags & CKF_TOKEN_PRESENT) == 0) {
+			cout << "no" << endl;
+			continue;
+		}
+		cout << "yes" << endl;
 	}
 
 	free(pSlotList);
