@@ -66,9 +66,8 @@ int showSlots(CK_FUNCTION_LIST_PTR p11)
 	}
 
 	for (CK_ULONG i = 0; i < ulSlotCount; i++) {
+
 		CK_SLOT_INFO slotInfo;
-		CK_TOKEN_INFO tokenInfo;
-		
 		if (p11->C_GetSlotInfo(pSlotList[i], &slotInfo) != CKR_OK) {
 			cout << "Couldn't get info about slot : 0x" << hex << pSlotList[i] << dec << " (" << pSlotList[i] << ")" << endl;
 			continue;
