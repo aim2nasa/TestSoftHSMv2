@@ -8,8 +8,6 @@ using namespace std;
 int main(int argc, char* argv[]) {
 	HINSTANCE hDLL = LoadLibraryA(DEFAULT_PKCS11_LIB);
 	if (hDLL == NULL) {
-		// Failed to load the PKCS #11 library
-		DWORD dw = GetLastError();
 		cout << "LoadLibraryA failed : " << GetLastError() << endl;
 		return -1;
 	}
