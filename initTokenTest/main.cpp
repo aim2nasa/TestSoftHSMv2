@@ -5,6 +5,7 @@ using namespace std;
 
 int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char* soPin, char *label);
 int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDLE *pSession);
+int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* soPin);
 
 int main(int argc, char* argv[])
 {
@@ -27,6 +28,14 @@ int main(int argc, char* argv[])
 		CK_SESSION_HANDLE hSession;
 		if (openSession(p11, atoi(argv[1]), &hSession) == 0) {
 			cout << "openSession OK" << endl;
+
+			if (login(p11, &hSession, argv[2]) == 0) {
+				cout << "login OK" << endl;
+			}
+			else{
+				unloadLib(module);
+				return -1;
+			}
 		}else{
 			unloadLib(module);
 			return -1;
@@ -69,6 +78,16 @@ int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDL
 	CK_RV rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, pSession);
 	if (rv != CKR_OK) {
 		cout << "ERROR: Could not open a session with the library." << endl;
+		return -1;
+	}
+	return 0;
+}
+
+int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* soPin)
+{
+	CK_RV rv = p11->C_Login(*pSession, CKU_SO, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin));
+	if (rv != CKR_OK) {
+		cout << "ERROR: Could not log in on the token. (0x" <<hex<<rv<< ")" << endl;
 		return -1;
 	}
 	return 0;
