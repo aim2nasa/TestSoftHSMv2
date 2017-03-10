@@ -63,4 +63,5 @@ int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDL
 		cout << "ERROR: Could not open a session with the library." << endl;
 		return -1;
 	}
+	return 0;
 }
