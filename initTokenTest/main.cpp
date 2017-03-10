@@ -3,10 +3,15 @@
 
 using namespace std;
 
-int initToken(CK_FUNCTION_LIST_PTR p11);
+int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char* soPin);
 
 int main(int argc, char* argv[])
 {
+	if (argc < 5) {
+		cout << "usage: initTokenTest <slot id> <soPin> <label> <userPin>" << endl;
+		return -1;
+	}
+
 	void* module;
 	CK_FUNCTION_LIST_PTR p11 = NULL;
 	if (loadLib(&module, &p11) == -1) {
@@ -15,19 +20,15 @@ int main(int argc, char* argv[])
 	}
 	cout << "loadLib ok" << endl;
 
-	initToken(p11);
+	initToken(p11, atoi(argv[1]), argv[2], argv[3]);
 
 	unloadLib(module);
 	cout << "initToken test end" << endl;
 	return 0;
 }
 
-int initToken(CK_FUNCTION_LIST_PTR p11)
+int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char* soPin)
 {
-	CK_SLOT_ID slotID=2;
-	char label[] = "MyTestLabel1";
-	char soPin[] = "1234";
-
 	CK_RV rv = p11->C_InitToken(slotID, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin), (CK_UTF8CHAR_PTR)label);
 	switch (rv)
 	{
