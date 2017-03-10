@@ -4,6 +4,7 @@
 using namespace std;
 
 int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char* soPin);
+int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDLE *pSession);
 
 int main(int argc, char* argv[])
 {
@@ -21,6 +22,9 @@ int main(int argc, char* argv[])
 	cout << "loadLib ok" << endl;
 
 	initToken(p11, atoi(argv[1]), argv[2], argv[3]);
+
+	CK_SESSION_HANDLE hSession;
+	openSession(p11, atoi(argv[1]), &hSession);
 
 	unloadLib(module);
 	cout << "initToken test end" << endl;
@@ -50,4 +54,13 @@ int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char*
 	cout << "InitToken OK" << endl;
 
 	return 0;
+}
+
+int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDLE *pSession)
+{
+	CK_RV rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, pSession);
+	if (rv != CKR_OK) {
+		cout << "ERROR: Could not open a session with the library." << endl;
+		return -1;
+	}
 }
