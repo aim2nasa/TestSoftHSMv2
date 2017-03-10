@@ -23,14 +23,14 @@ int main(int argc, char* argv[])
 
 	if (initToken(p11, atoi(argv[1]), argv[2], argv[3]) == 0) {
 		cout << "InitToken OK" << endl;
-	}else{
-		unloadLib(module);
-		return -1;
-	}
 
-	CK_SESSION_HANDLE hSession;
-	if(openSession(p11, atoi(argv[1]), &hSession)==0) {
-		cout << "openSession OK" << endl;
+		CK_SESSION_HANDLE hSession;
+		if (openSession(p11, atoi(argv[1]), &hSession) == 0) {
+			cout << "openSession OK" << endl;
+		}else{
+			unloadLib(module);
+			return -1;
+		}
 	}else{
 		unloadLib(module);
 		return -1;
