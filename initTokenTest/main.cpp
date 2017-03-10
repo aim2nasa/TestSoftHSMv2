@@ -21,10 +21,20 @@ int main(int argc, char* argv[])
 	}
 	cout << "loadLib ok" << endl;
 
-	initToken(p11, atoi(argv[1]), argv[2], argv[3]);
+	if (initToken(p11, atoi(argv[1]), argv[2], argv[3]) == 0) {
+		cout << "InitToken OK" << endl;
+	}else{
+		unloadLib(module);
+		return -1;
+	}
 
 	CK_SESSION_HANDLE hSession;
-	openSession(p11, atoi(argv[1]), &hSession);
+	if(openSession(p11, atoi(argv[1]), &hSession)==0) {
+		cout << "openSession OK" << endl;
+	}else{
+		unloadLib(module);
+		return -1;
+	}
 
 	unloadLib(module);
 	cout << "initToken test end" << endl;
@@ -51,8 +61,6 @@ int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char*
 		cout << "ERROR: Could not initialize the token. (" <<hex<< rv << ")" << endl;
 		return -1;
 	}
-	cout << "InitToken OK" << endl;
-
 	return 0;
 }
 
