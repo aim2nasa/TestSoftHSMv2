@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char* soPin);
+int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char* soPin, char *label);
 int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDLE *pSession);
 
 int main(int argc, char* argv[])
@@ -41,7 +41,7 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char *label, char* soPin)
+int initToken(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, char* soPin, char *label)
 {
 	CK_RV rv = p11->C_InitToken(slotID, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin), (CK_UTF8CHAR_PTR)label);
 	switch (rv)
