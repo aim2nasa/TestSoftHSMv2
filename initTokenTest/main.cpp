@@ -39,8 +39,7 @@ int main(int argc, char* argv[])
 					unloadLib(module);
 					return -1;
 				}
-			}
-			else{
+			}else{
 				unloadLib(module);
 				return -1;
 			}
