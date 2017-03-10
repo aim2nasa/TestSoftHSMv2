@@ -52,6 +52,8 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
+	cout << "The token has been initialized." << endl;
+
 	unloadLib(module);
 	cout << "initToken test end" << endl;
 	return 0;
