@@ -5,6 +5,11 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	if (argc < 8) {
+		cout << "usage: importKeyTest <slot id> <userPin> <obj id> <label> <file> <filePin> <noPublicKey>" << endl;
+		return -1;
+	}
+
 	void* module;
 	CK_FUNCTION_LIST_PTR p11 = NULL;
 	if (loadLib(&module, &p11) == -1) {
