@@ -39,9 +39,11 @@ int main(int argc, char* argv[])
 			}
 			else{
 				cout << "ERROR: Object not found, obj id(" << argv[3] << ")" << endl;
+				free(objectID);
 				unloadLib(module);
 				return -1;
 			}
+			free(objectID);
 		}
 		else{
 			unloadLib(module);
