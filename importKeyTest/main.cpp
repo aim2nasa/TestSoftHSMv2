@@ -235,6 +235,27 @@ int crypto_import_key_pair(CK_SESSION_HANDLE hSession,char* filePath,char* fileP
 	EC_KEY* ecdsa = NULL;
 #endif
 
+	switch (EVP_PKEY_type(EVP_PKEY_id(pkey)))
+	{
+	case EVP_PKEY_RSA:
+		rsa = EVP_PKEY_get1_RSA(pkey);
+		break;
+	case EVP_PKEY_DSA:
+		dsa = EVP_PKEY_get1_DSA(pkey);
+		break;
+#ifdef WITH_ECC
+	case EVP_PKEY_EC:
+		ecdsa = EVP_PKEY_get1_EC_KEY(pkey);
+		break;
+#endif
+	default:
+		fprintf(stderr, "ERROR: Cannot handle this algorithm.\n");
+		EVP_PKEY_free(pkey);
+		return 1;
+		break;
+	}
+	EVP_PKEY_free(pkey);
+
 	//softhsm2-util로 부터 포팅중
 
 	return 0;
