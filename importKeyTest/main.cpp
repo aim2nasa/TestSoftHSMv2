@@ -43,7 +43,9 @@ int main(int argc, char* argv[])
 			if (oHandle != CK_INVALID_HANDLE) {
 				cout << "Object found, obj id(" << argv[3] << ")" << endl;
 
-				crypto_import_key_pair(hSession, argv[5], argv[6], argv[4], objectID, objIDLen, atoi(argv[7]));
+				char* filePin = NULL;
+				if (strlen(argv[6]) > 0) filePin = argv[6];
+				crypto_import_key_pair(hSession, argv[5], filePin, argv[4], objectID, objIDLen, atoi(argv[7]));
 			}
 			else{
 				cout << "ERROR: Object not found, obj id(" << argv[3] << ")" << endl;
