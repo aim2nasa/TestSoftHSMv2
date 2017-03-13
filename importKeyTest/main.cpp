@@ -8,6 +8,7 @@ int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* soPin);
 char* hexStrToBin(char* objectID, int idLength, size_t* newLen);
 int hexdigit_to_int(char ch);
 CK_OBJECT_HANDLE searchObject(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE hSession, char* objID, size_t objIDLen);
+int crypto_import_key_pair(CK_SESSION_HANDLE hSession, char* filePath, char* filePIN, char* label, char* objID, size_t objIDLen, int noPublicKey);
 
 int main(int argc, char* argv[])
 {
@@ -36,6 +37,8 @@ int main(int argc, char* argv[])
 			CK_OBJECT_HANDLE oHandle = searchObject(p11,hSession, objectID,objIDLen);
 			if (oHandle != CK_INVALID_HANDLE) {
 				cout << "Object found, obj id(" << argv[3] << ")" << endl;
+
+				crypto_import_key_pair(hSession, argv[5], argv[6], argv[4], objectID, objIDLen, atoi(argv[7]));
 			}
 			else{
 				cout << "ERROR: Object not found, obj id(" << argv[3] << ")" << endl;
@@ -208,4 +211,9 @@ CK_OBJECT_HANDLE searchObject(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE hSessi
 	}
 
 	return hObject;
+}
+
+int crypto_import_key_pair(CK_SESSION_HANDLE hSession,char* filePath,char* filePIN,char* label,char* objID,size_t objIDLen,int noPublicKey)
+{
+	return 0;
 }
