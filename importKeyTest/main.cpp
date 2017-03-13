@@ -34,12 +34,14 @@ int main(int argc, char* argv[])
 			size_t objIDLen = 0;
 			char* objectID = hexStrToBin(argv[3], (int)strlen(argv[3]), &objIDLen);
 			CK_OBJECT_HANDLE oHandle = searchObject(p11,hSession, objectID,objIDLen);
-			if (oHandle == CK_INVALID_HANDLE ) {
+			if (oHandle != CK_INVALID_HANDLE) {
+				cout << "Object found, obj id(" << argv[3] << ")" << endl;
+			}
+			else{
 				cout << "ERROR: Object not found, obj id(" << argv[3] << ")" << endl;
 				unloadLib(module);
 				return -1;
 			}
-			cout << "Object found, obj id(" << argv[3] << ")" << endl;
 		}
 		else{
 			unloadLib(module);
