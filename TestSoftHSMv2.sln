@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "showSlotTest", "showSlotTes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "initTokenTest", "initTokenTest\initTokenTest.vcxproj", "{DD385236-08FF-4C63-A762-B44A5D4F32A7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "importKeyTest", "importKeyTest\importKeyTest.vcxproj", "{AB262A24-13AC-49AE-9B80-3AEADC76D48E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -51,6 +53,16 @@ Global
 		{DD385236-08FF-4C63-A762-B44A5D4F32A7}.Release|Win32.ActiveCfg = Release|Win32
 		{DD385236-08FF-4C63-A762-B44A5D4F32A7}.Release|Win32.Build.0 = Release|Win32
 		{DD385236-08FF-4C63-A762-B44A5D4F32A7}.Release|x64.ActiveCfg = Release|x64
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Debug|Win32.Build.0 = Debug|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Debug|x64.ActiveCfg = Debug|x64
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|Win32.ActiveCfg = Release|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|Win32.Build.0 = Release|Win32
+		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
