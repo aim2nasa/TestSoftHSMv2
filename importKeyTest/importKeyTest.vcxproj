@@ -161,6 +161,10 @@
   <ItemGroup>
     <ClCompile Include="..\common\library.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ssl-helper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ssl-helper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
