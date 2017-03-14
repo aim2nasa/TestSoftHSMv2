@@ -5,7 +5,7 @@
 using namespace std;
 
 int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDLE *pSession);
-int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* soPin);
+int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* userPin);
 char* hexStrToBin(char* objectID, int idLength, size_t* newLen);
 int hexdigit_to_int(char ch);
 CK_OBJECT_HANDLE searchObject(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE hSession, char* objID, size_t objIDLen);
@@ -75,9 +75,9 @@ int openSession(CK_FUNCTION_LIST_PTR p11, unsigned long slotID, CK_SESSION_HANDL
 	return 0;
 }
 
-int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* soPin)
+int login(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char* userPin)
 {
-	CK_RV rv = p11->C_Login(*pSession, CKU_SO, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin));
+	CK_RV rv = p11->C_Login(*pSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
 	if (rv != CKR_OK) {
 		cout << "ERROR: Could not log in on the token. (0x" << hex << rv << ")" << endl;
 		return -1;
