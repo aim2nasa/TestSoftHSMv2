@@ -58,9 +58,13 @@ int crypto_import_key_pair(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE hSession,
 		EC_KEY_free(ecdsa);
 	}
 #endif
+	else
+	{
+		fprintf(stderr, "ERROR: Could not get the key material.\n");
+		result = 1;
+	}
 
 	return result;
-	//softhsm2-util로 부터 포팅중
 }
 
 // Read the key from file
