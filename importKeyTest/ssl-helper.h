@@ -48,4 +48,33 @@ int crypto_save_rsa(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE hSession, char* 
 rsa_key_material_t* crypto_malloc_rsa(RSA* rsa);
 void crypto_free_rsa(rsa_key_material_t* keyMat);
 
+// DSA
+typedef struct dsa_key_material_t {
+	CK_ULONG sizeP;
+	CK_ULONG sizeQ;
+	CK_ULONG sizeG;
+	CK_ULONG sizeX;
+	CK_ULONG sizeY;
+	CK_VOID_PTR bigP;
+	CK_VOID_PTR bigQ;
+	CK_VOID_PTR bigG;
+	CK_VOID_PTR bigX;
+	CK_VOID_PTR bigY;
+	dsa_key_material_t() {
+		sizeP = 0;
+		sizeQ = 0;
+		sizeG = 0;
+		sizeX = 0;
+		sizeY = 0;
+		bigP = NULL_PTR;
+		bigQ = NULL_PTR;
+		bigG = NULL_PTR;
+		bigX = NULL_PTR;
+		bigY = NULL_PTR;
+	}
+} dsa_key_material_t;
+int crypto_save_dsa(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE hSession, char* label, char* objID, size_t objIDLen, int noPublicKey, DSA* dsa);
+dsa_key_material_t* crypto_malloc_dsa(DSA* dsa);
+void crypto_free_dsa(dsa_key_material_t* keyMat);
+
 #endif
