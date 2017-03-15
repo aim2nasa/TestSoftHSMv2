@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "initTokenTest", "initTokenT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "importKeyTest", "importKeyTest\importKeyTest.vcxproj", "{AB262A24-13AC-49AE-9B80-3AEADC76D48E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deleteKeyTest", "deleteKeyTest\deleteKeyTest.vcxproj", "{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -63,6 +65,16 @@ Global
 		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|Win32.ActiveCfg = Release|Win32
 		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|Win32.Build.0 = Release|Win32
 		{AB262A24-13AC-49AE-9B80-3AEADC76D48E}.Release|x64.ActiveCfg = Release|x64
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Debug|Win32.ActiveCfg = Debug|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Debug|Win32.Build.0 = Debug|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Debug|x64.ActiveCfg = Debug|x64
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|Win32.ActiveCfg = Release|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|Win32.Build.0 = Release|Win32
+		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
