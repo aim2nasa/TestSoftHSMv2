@@ -1,4 +1,5 @@
 #include <iostream>
+#include "helper.h"
 
 using namespace std;
 
@@ -15,6 +16,12 @@ int main(int argc, char* argv[])
 	if (serial == NULL && token == NULL) {
 		fprintf(stderr, "ERROR: A token must be supplied. "
 			"Use --serial <serial> or --token <label>\n");
+		return -1;
+	}
+
+	// Initialize the SoftHSM internal functions
+	if (!initSoftHSM()) {
+		finalizeSoftHSM();
 		return -1;
 	}
 
