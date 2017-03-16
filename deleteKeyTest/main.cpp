@@ -12,8 +12,11 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	char* serial = argv[1];
-	char* token = argv[2];
+	char* serial = NULL;
+	if (strlen(argv[1]) > 0) serial = argv[1];
+
+	char* token = NULL;
+	if (strlen(argv[2]) > 0) token = argv[2];
 
 	if (serial == NULL && token == NULL) {
 		fprintf(stderr, "ERROR: A token must be supplied. "
