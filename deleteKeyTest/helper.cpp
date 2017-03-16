@@ -4,6 +4,7 @@
 #include "CryptoFactory.h"
 #include "Configuration.h"
 #include "SimpleConfigLoader.h"
+#include "ObjectStoreToken.h"
 
 #if defined(WITH_OPENSSL)
 #include "OSSLCryptoFactory.h"
@@ -72,6 +73,13 @@ bool initSoftHSM()
 	if (!setLogLevel(Configuration::i()->getString("log.level", DEFAULT_LOG_LEVEL)))
 	{
 		fprintf(stderr, "ERROR: Could not configure the log level.\n");
+		return false;
+	}
+
+	// Configure object store storage backend used by all tokens.
+	if (!ObjectStoreToken::selectBackend(Configuration::i()->getString("objectstore.backend", DEFAULT_OBJECTSTORE_BACKEND)))
+	{
+		fprintf(stderr, "ERROR: Could not select token backend.\n");
 		return false;
 	}
 
