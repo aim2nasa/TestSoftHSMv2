@@ -216,5 +216,19 @@ bool rmdir(std::string path)
 // Delete a file
 bool rm(std::string path)
 {
+	int result;
+
+#ifndef _WIN32
+	result = ::remove(path.c_str());
+#else
+	result = _unlink(path.c_str());
+#endif
+
+	if (result != 0)
+	{
+		fprintf(stderr, "ERROR: Could not delete the file: %s\n", path.c_str());
+		return false;
+	}
+
 	return true;
 }
