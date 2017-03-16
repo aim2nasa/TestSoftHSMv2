@@ -50,6 +50,15 @@ bool initSoftHSM()
 		return false;
 	}
 
+#ifdef WITH_FIPS
+	// Check the FIPS status
+	if (!CryptoFactory::i()->getFipsSelfTestStatus())
+	{
+		fprintf(stderr, "ERROR: FIPS self test failed.\n");
+		return false;
+	}
+#endif
+
 	return true;
 }
 
