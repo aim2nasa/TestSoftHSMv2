@@ -2,6 +2,8 @@
 #include "MutexFactory.h"
 #include "SecureMemoryRegistry.h"
 #include "CryptoFactory.h"
+#include "Configuration.h"
+#include "SimpleConfigLoader.h"
 
 #if defined(WITH_OPENSSL)
 #include "OSSLCryptoFactory.h"
@@ -58,6 +60,13 @@ bool initSoftHSM()
 		return false;
 	}
 #endif
+
+	// Load the configuration
+	if (!Configuration::i()->reload(SimpleConfigLoader::i()))
+	{
+		fprintf(stderr, "ERROR: Could not load the SoftHSM configuration.\n");
+		return false;
+	}
 
 	return true;
 }
