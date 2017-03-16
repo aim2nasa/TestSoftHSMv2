@@ -102,7 +102,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\ext\softhsm-2.2.0\include\common;..\ext\softhsm-2.2.0\include\win32;..\ext\softhsm-2.2.0\include\cryptoki_compat;..\ext\softhsm-2.2.0\include;..\ext\softhsm-2.2.0\include\crypto;..\ext\softhsm-2.2.0\include\data_mgr;..\ext\softhsm-2.2.0\include\object_store</AdditionalIncludeDirectories>
     </ClCompile>
@@ -139,7 +139,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\ext\softhsm-2.2.0\include\common;..\ext\softhsm-2.2.0\include\win32;..\ext\softhsm-2.2.0\include\cryptoki_compat;..\ext\softhsm-2.2.0\include;..\ext\softhsm-2.2.0\include\crypto;..\ext\softhsm-2.2.0\include\data_mgr;..\ext\softhsm-2.2.0\include\object_store</AdditionalIncludeDirectories>
     </ClCompile>

@@ -5,6 +5,7 @@
 #include "Configuration.h"
 #include "SimpleConfigLoader.h"
 #include "ObjectStoreToken.h"
+#include "Directory.h"
 
 #if defined(WITH_OPENSSL)
 #include "OSSLCryptoFactory.h"
@@ -128,5 +129,80 @@ bool findTokenDirectory(std::string basedir, std::string& tokendir, char* serial
 		memcpy(paddedLabel, label, inSize);
 	}
 
+	// Find all tokens in the specified path
+	Directory storeDir(basedir);
+
+	if (!storeDir.isValid())
+	{
+		fprintf(stderr, "Failed to enumerate object store in %s", basedir.c_str());
+
+		return false;
+	}
+
+	// Assume that all subdirectories are tokens
+	std::vector<std::string> dirs = storeDir.getSubDirs();
+
+	ByteString tokenLabel;
+	ByteString tokenSerial;
+	CK_UTF8CHAR paddedTokenSerial[16];
+	CK_UTF8CHAR paddedTokenLabel[32];
+	size_t counter = 0;
+	for (std::vector<std::string>::iterator i = dirs.begin(); i != dirs.end(); i++)
+	{
+		memset(paddedTokenSerial, ' ', sizeof(paddedTokenSerial));
+		memset(paddedTokenLabel, ' ', sizeof(paddedTokenLabel));
+
+		// Create a token instance
+		ObjectStoreToken* token = ObjectStoreToken::accessToken(basedir, *i);
+
+		if (!token->isValid())
+		{
+			delete token;
+			continue;
+		}
+
+		if (token->getTokenLabel(tokenLabel) && tokenLabel.size() <= sizeof(paddedTokenLabel))
+		{
+			strncpy((char*)paddedTokenLabel, (char*)tokenLabel.byte_str(), tokenLabel.size());
+		}
+		if (token->getTokenSerial(tokenSerial) && tokenSerial.size() <= sizeof(paddedTokenSerial))
+		{
+			strncpy((char*)paddedTokenSerial, (char*)tokenSerial.byte_str(), tokenSerial.size());
+		}
+
+		if (serial != NULL && label == NULL &&
+			memcmp(paddedTokenSerial, paddedSerial, sizeof(paddedSerial)) == 0)
+		{
+			printf("Found token (%s) with matching serial.\n", i->c_str());
+			tokendir = i->c_str();
+			counter++;
+		}
+		if (serial == NULL && label != NULL &&
+			memcmp(paddedTokenLabel, paddedLabel, sizeof(paddedLabel)) == 0)
+		{
+			printf("Found token (%s) with matching token label.\n", i->c_str());
+			tokendir = i->c_str();
+			counter++;
+		}
+		if (serial != NULL && label != NULL &&
+			memcmp(paddedTokenSerial, paddedSerial, sizeof(paddedSerial)) == 0 &&
+			memcmp(paddedTokenLabel, paddedLabel, sizeof(paddedLabel)) == 0)
+		{
+			printf("Found token (%s) with matching serial and token label.\n", i->c_str());
+			tokendir = i->c_str();
+			counter++;
+		}
+
+		delete token;
+	}
+
+	if (counter == 1) return true;
+	if (counter > 1)
+	{
+		fprintf(stderr, "ERROR: Found multiple matching tokens.\n");
+		return false;
+	}
+
+	fprintf(stderr, "ERROR: Could not find a token using --serial or --token.\n");
 	return false;
 }
