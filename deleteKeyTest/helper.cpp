@@ -6,11 +6,22 @@
 #include "SimpleConfigLoader.h"
 #include "ObjectStoreToken.h"
 #include "Directory.h"
+#include "OSPathSep.h"
 
 #if defined(WITH_OPENSSL)
 #include "OSSLCryptoFactory.h"
 #else
 #include "BotanCryptoFactory.h"
+#endif
+
+#ifndef _WIN32
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#else
+#include <direct.h>
+#include <io.h>
 #endif
 
 #ifdef HAVE_CXX11
@@ -210,6 +221,152 @@ bool findTokenDirectory(std::string basedir, std::string& tokendir, char* serial
 // Delete a directory
 bool rmdir(std::string path) 
 {
+	bool rv = true;
+
+#ifndef _WIN32
+	// Enumerate the directory
+	DIR* dir = opendir(path.c_str());
+
+	if (dir == NULL)
+	{
+		fprintf(stderr, "ERROR: Failed to open directory %s", path.c_str());
+		return false;
+	}
+
+	// Enumerate the directory
+	struct dirent* entry = NULL;
+
+	while ((entry = readdir(dir)) != NULL)
+	{
+		bool handled = false;
+
+		// Check if this is the . or .. entry
+		if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
+		{
+			continue;
+		}
+
+		// Convert the name of the entry to a C++ string
+		std::string name(entry->d_name);
+		std::string fullPath = path + OS_PATHSEP + name;
+
+#if defined(_DIRENT_HAVE_D_TYPE) && defined(_BSD_SOURCE)
+		// Determine the type of the entry
+		switch (entry->d_type)
+		{
+		case DT_DIR:
+			// This is a directory
+			rv = rmdir(fullPath);
+			handled = true;
+			break;
+		case DT_REG:
+			// This is a regular file
+			rv = rm(fullPath);
+			handled = true;
+			break;
+		default:
+			break;
+		}
+#endif
+
+		if (rv == false)
+			break;
+
+		if (!handled)
+		{
+			// The entry type has to be determined using lstat
+			struct stat entryStatus;
+
+			if (!lstat(fullPath.c_str(), &entryStatus))
+			{
+				if (S_ISDIR(entryStatus.st_mode))
+				{
+					// This is a directory
+					rv = rmdir(fullPath);
+				}
+				else if (S_ISREG(entryStatus.st_mode))
+				{
+					// This is a regular file
+					rv = rm(fullPath);
+				}
+			}
+
+			if (rv == false)
+				break;
+		}
+	}
+
+	// Close the directory
+	closedir(dir);
+#else
+	// Enumerate the directory
+	std::string pattern;
+	intptr_t h;
+	struct _finddata_t fi;
+
+	if ((path.back() == '/') || (path.back() == '\\'))
+		pattern = path + "*";
+	else
+		pattern = path + "/*";
+	memset(&fi, 0, sizeof(fi));
+	h = _findfirst(pattern.c_str(), &fi);
+	if (h == -1)
+	{
+		// empty directory
+		if (errno == ENOENT)
+			goto finished;
+
+		fprintf(stderr, "ERROR: Failed to open directory %s", path.c_str());
+
+		return false;
+	}
+
+	// scan files & subdirs
+	do
+	{
+		// Check if this is the . or .. entry
+		if (!strcmp(fi.name, ".") || !strcmp(fi.name, ".."))
+			continue;
+
+		std::string fullPath = path + OS_PATHSEP + fi.name;
+		if ((fi.attrib & _A_SUBDIR) == 0)
+		{
+			// This is a regular file
+			rv = rm(fullPath);
+		}
+		else
+		{
+			// This is a directory
+			rv = rmdir(fullPath);
+		}
+
+		memset(&fi, 0, sizeof(fi));
+
+		if (rv == false)
+			break;
+	} while (_findnext(h, &fi) == 0);
+
+	(void)_findclose(h);
+
+finished:
+#endif
+
+	if (rv == false)
+		return false;
+
+	int result;
+#ifndef _WIN32
+	result = ::rmdir(path.c_str());
+#else
+	result = _rmdir(path.c_str());
+#endif
+
+	if (result != 0)
+	{
+		fprintf(stderr, "ERROR: Could not delete the directory: %s\n", path.c_str());
+		return false;
+	}
+
 	return true;
 }
 
