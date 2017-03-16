@@ -1,5 +1,6 @@
 #include <iostream>
 #include "helper.h"
+#include "Configuration.h"
 
 using namespace std;
 
@@ -24,6 +25,9 @@ int main(int argc, char* argv[])
 		finalizeSoftHSM();
 		return -1;
 	}
+
+	std::string basedir = Configuration::i()->getString("directories.tokendir", DEFAULT_TOKENDIR);
+	std::string tokendir;
 
 	cout << "delete key test end" << endl;
 	return 0;
