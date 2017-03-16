@@ -1,6 +1,7 @@
 #include <iostream>
 #include "helper.h"
 #include "Configuration.h"
+#include "OSPathSep.h"
 
 using namespace std;
 
@@ -31,9 +32,23 @@ int main(int argc, char* argv[])
 
 	if (findTokenDirectory(basedir, tokendir, serial, token))
 	{
+		std::string fulldir = basedir;
+		if (fulldir.find_last_of(OS_PATHSEP) != (fulldir.size() - 1))
+		{
+			fulldir += OS_PATHSEP + tokendir;
+		}
+		else
+		{
+			fulldir += tokendir;
+		}
 
+		if (rmdir(fulldir))
+		{
+			printf("The token (%s) has been deleted.\n", fulldir.c_str());
+		}
 	}
 
+	finalizeSoftHSM();
 	cout << "delete key test end" << endl;
 	return 0;
 }
