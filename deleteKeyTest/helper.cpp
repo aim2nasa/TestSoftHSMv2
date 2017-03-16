@@ -95,5 +95,38 @@ void finalizeSoftHSM()
 // Find the token directory
 bool findTokenDirectory(std::string basedir, std::string& tokendir, char* serial, char* label)
 {
+	if (serial == NULL && label == NULL)
+	{
+		return false;
+	}
+
+	// Load the variables
+	CK_UTF8CHAR paddedSerial[16];
+	CK_UTF8CHAR paddedLabel[32];
+	if (serial != NULL)
+	{
+		size_t inSize = strlen(serial);
+		size_t outSize = sizeof(paddedSerial);
+		if (inSize > outSize)
+		{
+			fprintf(stderr, "ERROR: --serial is too long.\n");
+			return false;
+		}
+		memset(paddedSerial, ' ', outSize);
+		memcpy(paddedSerial, serial, inSize);
+	}
+	if (label != NULL)
+	{
+		size_t inSize = strlen(label);
+		size_t outSize = sizeof(paddedLabel);
+		if (inSize > outSize)
+		{
+			fprintf(stderr, "ERROR: --token is too long.\n");
+			return false;
+		}
+		memset(paddedLabel, ' ', outSize);
+		memcpy(paddedLabel, label, inSize);
+	}
+
 	return false;
 }
