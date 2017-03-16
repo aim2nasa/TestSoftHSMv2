@@ -206,6 +206,7 @@ bool findTokenDirectory(std::string basedir, std::string& tokendir, char* serial
 	fprintf(stderr, "ERROR: Could not find a token using --serial or --token.\n");
 	return false;
 }
+
 // Delete a directory
 bool rmdir(std::string path) 
 {
