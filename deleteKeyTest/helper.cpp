@@ -88,5 +88,6 @@ bool initSoftHSM()
 
 void finalizeSoftHSM()
 {
-
+	CryptoFactory::reset();
+	SecureMemoryRegistry::reset();
 }
