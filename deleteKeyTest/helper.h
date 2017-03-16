@@ -6,5 +6,6 @@
 bool initSoftHSM();
 void finalizeSoftHSM();
 bool findTokenDirectory(std::string basedir, std::string& tokendir, char* serial, char* label);
+bool rmdir(std::string path);
 
 #endif
