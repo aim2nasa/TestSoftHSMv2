@@ -212,3 +212,9 @@ bool rmdir(std::string path)
 {
 	return true;
 }
+
+// Delete a file
+bool rm(std::string path)
+{
+	return true;
+}
