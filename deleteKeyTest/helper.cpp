@@ -1,6 +1,7 @@
 #include "helper.h"
 #include "MutexFactory.h"
 #include "SecureMemoryRegistry.h"
+#include "CryptoFactory.h"
 
 #ifdef HAVE_CXX11
 
@@ -23,6 +24,13 @@ bool initSoftHSM()
 	if (SecureMemoryRegistry::i() == NULL)
 	{
 		fprintf(stderr, "ERROR: Could not initiate SecureMemoryRegistry.\n");
+		return false;
+	}
+
+	// Build the CryptoFactory
+	if (CryptoFactory::i() == NULL)
+	{
+		fprintf(stderr, "ERROR: Could not initiate CryptoFactory.\n");
 		return false;
 	}
 
