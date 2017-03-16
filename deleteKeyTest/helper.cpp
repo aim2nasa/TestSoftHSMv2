@@ -68,6 +68,13 @@ bool initSoftHSM()
 		return false;
 	}
 
+	// Configure the log level
+	if (!setLogLevel(Configuration::i()->getString("log.level", DEFAULT_LOG_LEVEL)))
+	{
+		fprintf(stderr, "ERROR: Could not configure the log level.\n");
+		return false;
+	}
+
 	return true;
 }
 
