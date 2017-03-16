@@ -29,6 +29,11 @@ int main(int argc, char* argv[])
 	std::string basedir = Configuration::i()->getString("directories.tokendir", DEFAULT_TOKENDIR);
 	std::string tokendir;
 
+	if (findTokenDirectory(basedir, tokendir, serial, token))
+	{
+
+	}
+
 	cout << "delete key test end" << endl;
 	return 0;
 }

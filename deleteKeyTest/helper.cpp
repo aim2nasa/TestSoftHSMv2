@@ -91,3 +91,9 @@ void finalizeSoftHSM()
 	CryptoFactory::reset();
 	SecureMemoryRegistry::reset();
 }
+
+// Find the token directory
+bool findTokenDirectory(std::string basedir, std::string& tokendir, char* serial, char* label)
+{
+	return false;
+}
