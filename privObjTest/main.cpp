@@ -43,11 +43,13 @@ int main(int argc, char* argv[]) {
 				else{
 					cout << hex << "FindObject failed: 0x" << (unsigned long)rv << endl;
 					unloadLib(module);
+					return -1;
 				}
 			}
 			else{
 				cout << hex << "FindObject Init failed: 0x" << (unsigned long)rv << endl;
 				unloadLib(module);
+				return -1;
 			}
 
 		}else{
