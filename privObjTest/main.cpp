@@ -24,6 +24,21 @@ int main(int argc, char* argv[]) {
 		rv = p11->C_Login(hSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
 		if (rv == CKR_OK) {
 			cout << hex << "user login OK: 0x" << (unsigned long)rv << endl;
+
+			const char  *pLabel = "MyToken 1";
+			CK_ATTRIBUTE attribs[] = {
+				{ CKA_LABEL, (CK_UTF8CHAR_PTR)pLabel, (CK_ULONG)strlen(pLabel) }
+			};
+
+			rv = p11->C_FindObjectsInit(hSession, &attribs[0], 0);
+			if (rv == CKR_OK) {
+				cout << hex << "FindObject Init OK: 0x" << (unsigned long)rv << endl;
+			}
+			else{
+				cout << hex << "FindObject Init failed: 0x" << (unsigned long)rv << endl;
+				unloadLib(module);
+			}
+
 		}else{
 			cout << hex << "user login failed: 0x" << (unsigned long)rv << endl;
 			unloadLib(module);
