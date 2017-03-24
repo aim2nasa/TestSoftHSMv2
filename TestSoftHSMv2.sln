@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "importKeyTest", "importKeyT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deleteKeyTest", "deleteKeyTest\deleteKeyTest.vcxproj", "{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "privObjTest", "privObjTest\privObjTest.vcxproj", "{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -53,6 +55,12 @@ Global
 		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|Win32.ActiveCfg = Release|Win32
 		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|Win32.Build.0 = Release|Win32
 		{CDA38B6B-8B75-4E64-B98A-B02EC4A8F625}.Release|x64.ActiveCfg = Release|x64
+		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Debug|Win32.Build.0 = Debug|Win32
+		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Debug|x64.ActiveCfg = Debug|x64
+		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Release|Win32.ActiveCfg = Release|Win32
+		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Release|Win32.Build.0 = Release|Win32
+		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
