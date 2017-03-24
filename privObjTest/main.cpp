@@ -39,6 +39,16 @@ int main(int argc, char* argv[]) {
 				rv = p11->C_FindObjects(hSession, &hObjects[0], 16, &ulObjectCount);
 				if (rv == CKR_OK) {
 					cout << hex << "FindObject OK: 0x" << (unsigned long)rv <<dec<<",objectCount="<<ulObjectCount<< endl;
+
+					rv = p11->C_FindObjectsFinal(hSession);
+					if (rv == CKR_OK) {
+						cout << hex << "FindObjectsFinal OK: 0x" << (unsigned long)rv << endl;
+					}
+					else{
+						cout << hex << "FindObjectsFinal failed: 0x" << (unsigned long)rv << endl;
+						unloadLib(module);
+						return -1;
+					}
 				}
 				else{
 					cout << hex << "FindObject failed: 0x" << (unsigned long)rv << endl;
