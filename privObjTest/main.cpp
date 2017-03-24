@@ -18,6 +18,17 @@ int main(int argc, char* argv[]) {
 	CK_RV rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, &hSession);
 	if (rv == CKR_OK) {
 		cout <<hex<< "openSession OK: 0x" << (unsigned long)rv << endl;
+
+		char userPin[] = "1234";	//하드코딩 변수임: user PIN을 1234로 입력했다고 가정함
+
+		rv = p11->C_Login(hSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
+		if (rv == CKR_OK) {
+			cout << hex << "user login OK: 0x" << (unsigned long)rv << endl;
+		}else{
+			cout << hex << "user login failed: 0x" << (unsigned long)rv << endl;
+			unloadLib(module);
+			return -1;
+		}
 	}
 	else{
 		cout <<hex<< "openSession failed: 0x" << (unsigned long)rv << endl;
