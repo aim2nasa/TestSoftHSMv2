@@ -14,6 +14,11 @@ const CK_BBOOL IS_PUBLIC = CK_FALSE;
 CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject);
 
 int main(int argc, char* argv[]) {
+	if (argc < 3) {
+		cout << "usage: privObjTest <slot id> <userPin>" << endl;
+		return -1;
+	}
+
 	void* module;
 	CK_FUNCTION_LIST_PTR p11 = NULL;
 	if (loadLib(&module, &p11) == -1) {
@@ -22,14 +27,14 @@ int main(int argc, char* argv[]) {
 	}
 	cout << "loadLib ok" << endl;
 
-	unsigned long slotID = 1868647305;	//하드코딩 변수임: softhsm2-util.exe --show-slots로 조회된 슬롯 아이디를 입력해야 함
+	unsigned long slotID = atoi(argv[1]);
 
 	CK_SESSION_HANDLE hSession;
 	CK_RV rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, &hSession);
 	if (rv == CKR_OK) {
 		cout <<hex<< "openSession OK: 0x" << (unsigned long)rv << endl;
 
-		char userPin[] = "1234";	//하드코딩 변수임: user PIN을 1234로 입력했다고 가정함
+		char *userPin = argv[2];
 
 		rv = p11->C_Login(hSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
 		if (rv == CKR_OK) {
