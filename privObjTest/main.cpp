@@ -3,6 +3,16 @@
 
 using namespace std;
 
+// CKA_TOKEN
+const CK_BBOOL ON_TOKEN = CK_TRUE;
+const CK_BBOOL IN_SESSION = CK_FALSE;
+
+// CKA_PRIVATE
+const CK_BBOOL IS_PRIVATE = CK_TRUE;
+const CK_BBOOL IS_PUBLIC = CK_FALSE;
+
+CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject);
+
 int main(int argc, char* argv[]) {
 	void* module;
 	CK_FUNCTION_LIST_PTR p11 = NULL;
@@ -24,6 +34,9 @@ int main(int argc, char* argv[]) {
 		rv = p11->C_Login(hSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
 		if (rv == CKR_OK) {
 			cout << hex << "user login OK: 0x" << (unsigned long)rv << endl;
+
+			CK_OBJECT_HANDLE hObjectTokenPrivate;
+			createDataObjectMinimal(hSession, ON_TOKEN, IS_PRIVATE, hObjectTokenPrivate);
 
 			const char  *pLabel = "MyToken 1";
 			CK_ATTRIBUTE attribs[] = {
@@ -77,4 +90,26 @@ int main(int argc, char* argv[]) {
 	unloadLib(module);
 	cout << "private object test end" << endl;
 	return 0;
+}
+
+CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject)
+{
+	CK_OBJECT_CLASS cClass = CKO_DATA;
+	CK_UTF8CHAR label[] = "A data object";
+	CK_ATTRIBUTE objTemplate[] = {
+		// Common
+		{ CKA_CLASS, &cClass, sizeof(cClass) },
+
+		// Storage
+		{ CKA_TOKEN, &bToken, sizeof(bToken) },
+		{ CKA_PRIVATE, &bPrivate, sizeof(bPrivate) },
+		//CKA_MODIFIABLE
+		{ CKA_LABEL, label, sizeof(label)-1 },
+		//CKA_COPYABLE
+
+		// Data
+	};
+
+	hObject = CK_INVALID_HANDLE;
+	return C_CreateObject(hSession, objTemplate, sizeof(objTemplate) / sizeof(CK_ATTRIBUTE), &hObject);
 }
