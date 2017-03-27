@@ -22,79 +22,47 @@ int main(int argc, char* argv[]) {
 
 	void* module;
 	CK_FUNCTION_LIST_PTR p11 = NULL;
-	if (loadLib(&module, &p11) == -1) {
-		cout << "ERROR: loadLib" << endl;
-		return -1;
-	}
+	int nRtn = loadLib(&module, &p11);
+	assert(nRtn != -1);
 	cout << "loadLib ok" << endl;
 
 	unsigned long slotID = atoi(argv[1]);
 
 	CK_SESSION_HANDLE hSession;
 	CK_RV rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, &hSession);
-	if (rv == CKR_OK) {
-		cout <<hex<< "openSession OK: 0x" << (unsigned long)rv << endl;
+	assert(rv ==CKR_OK);
+	cout << hex << "openSession OK: 0x" << (unsigned long)rv << endl;
 
-		char *userPin = argv[2];
+	char *userPin = argv[2];
+	rv = p11->C_Login(hSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
+	assert(rv == CKR_OK);
+	cout << hex << "user login OK: 0x" << (unsigned long)rv << endl;
 
-		rv = p11->C_Login(hSession, CKU_USER, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
-		if (rv == CKR_OK) {
-			cout << hex << "user login OK: 0x" << (unsigned long)rv << endl;
+	CK_OBJECT_HANDLE hObjectTokenPrivate;
+	rv = createDataObjectMinimal(hSession, ON_TOKEN, IS_PRIVATE, hObjectTokenPrivate);
+	assert(rv == CKR_OK);
 
-			CK_OBJECT_HANDLE hObjectTokenPrivate;
-			createDataObjectMinimal(hSession, ON_TOKEN, IS_PRIVATE, hObjectTokenPrivate);
+	const char  *pLabel = "Label modified via C_SetAttributeValue";
+	CK_ATTRIBUTE attribs[] = {
+		{ CKA_LABEL, (CK_UTF8CHAR_PTR)pLabel, (CK_ULONG)strlen(pLabel) }
+	};
 
-			const char  *pLabel = "Label modified via C_SetAttributeValue";
-			CK_ATTRIBUTE attribs[] = {
-				{ CKA_LABEL, (CK_UTF8CHAR_PTR)pLabel, (CK_ULONG)strlen(pLabel) }
-			};
+	rv = C_SetAttributeValue(hSession, hObjectTokenPrivate, &attribs[0], 1);
+	assert(rv == CKR_OK);
 
-			rv=C_SetAttributeValue(hSession, hObjectTokenPrivate, &attribs[0], 1);
-			assert(rv = CKR_OK);
+	rv = p11->C_FindObjectsInit(hSession, &attribs[0], 1);
+	assert(rv == CKR_OK);
+	cout << hex << "FindObject Init OK: 0x" << (unsigned long)rv << endl;
 
-			rv = p11->C_FindObjectsInit(hSession, &attribs[0], 1);
-			if (rv == CKR_OK) {
-				cout << hex << "FindObject Init OK: 0x" << (unsigned long)rv << endl;
+	CK_OBJECT_HANDLE hObjects[16];
+	CK_ULONG ulObjectCount = 0;
+	rv = p11->C_FindObjects(hSession, &hObjects[0], 16, &ulObjectCount);
+	assert(rv == CKR_OK);
+	cout << hex << "FindObject OK: 0x" << (unsigned long)rv << dec << ",objectCount=" << ulObjectCount << endl;
 
-				CK_OBJECT_HANDLE hObjects[16];
-				CK_ULONG ulObjectCount = 0;
-				rv = p11->C_FindObjects(hSession, &hObjects[0], 16, &ulObjectCount);
-				if (rv == CKR_OK) {
-					cout << hex << "FindObject OK: 0x" << (unsigned long)rv <<dec<<",objectCount="<<ulObjectCount<< endl;
-
-					rv = p11->C_FindObjectsFinal(hSession);
-					if (rv == CKR_OK) {
-						cout << hex << "FindObjectsFinal OK: 0x" << (unsigned long)rv << endl;
-					}
-					else{
-						cout << hex << "FindObjectsFinal failed: 0x" << (unsigned long)rv << endl;
-						unloadLib(module);
-						return -1;
-					}
-				}
-				else{
-					cout << hex << "FindObject failed: 0x" << (unsigned long)rv << endl;
-					unloadLib(module);
-					return -1;
-				}
-			}
-			else{
-				cout << hex << "FindObject Init failed: 0x" << (unsigned long)rv << endl;
-				unloadLib(module);
-				return -1;
-			}
-
-		}else{
-			cout << hex << "user login failed: 0x" << (unsigned long)rv << endl;
-			unloadLib(module);
-			return -1;
-		}
-	}
-	else{
-		cout <<hex<< "openSession failed: 0x" << (unsigned long)rv << endl;
-		unloadLib(module);
-		return -1;
-	}
+	rv = p11->C_FindObjectsFinal(hSession);
+	assert(rv == CKR_OK);
+	cout << hex << "FindObjectsFinal OK: 0x" << (unsigned long)rv << endl;
 
 	unloadLib(module);
 	cout << "private object test end" << endl;
