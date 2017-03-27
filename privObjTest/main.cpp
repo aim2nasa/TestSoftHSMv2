@@ -69,6 +69,7 @@ int main(int argc, char* argv[]) {
 CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject, CK_UTF8CHAR_PTR label)
 {
 	CK_OBJECT_CLASS cClass = CKO_DATA;
+	CK_BYTE key[128];
 	CK_ATTRIBUTE objTemplate[] = {
 		// Common
 		{ CKA_CLASS, &cClass, sizeof(cClass) },
@@ -80,8 +81,13 @@ CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BB
 		{ CKA_LABEL, label, (CK_ULONG)strlen((char*)label) },
 		//CKA_COPYABLE
 
+		{ CKA_VALUE, key, sizeof(key) }
+
 		// Data
 	};
+
+	CK_RV  rv = C_GenerateRandom(hSession, key, sizeof(key));
+	assert(rv == CKR_OK);
 
 	hObject = CK_INVALID_HANDLE;
 	return C_CreateObject(hSession, objTemplate, sizeof(objTemplate) / sizeof(CK_ATTRIBUTE), &hObject);
