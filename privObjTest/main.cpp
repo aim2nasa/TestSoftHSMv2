@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 	rv = C_SetAttributeValue(hSession, hObjectTokenPrivate, &attribs[0], 1);
 	assert(rv == CKR_OK);
 
-	rv = p11->C_FindObjectsInit(hSession, &attribs[0], 1);
+	rv = p11->C_FindObjectsInit(hSession, &attribs[0], 1);	//1이면 attribute에 지정된 속성을 검색하고 0이면 이에 상관없이 모든 object를 찾는다
 	assert(rv == CKR_OK);
 	cout << hex << "FindObject Init OK: 0x" << (unsigned long)rv << endl;
 
