@@ -12,7 +12,7 @@ const CK_BBOOL IN_SESSION = CK_FALSE;
 const CK_BBOOL IS_PRIVATE = CK_TRUE;
 const CK_BBOOL IS_PUBLIC = CK_FALSE;
 
-CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject);
+CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject, CK_UTF8CHAR_PTR label);
 
 int main(int argc, char* argv[]) {
 	if (argc < 3) {
@@ -38,17 +38,14 @@ int main(int argc, char* argv[]) {
 	assert(rv == CKR_OK);
 	cout << hex << "user login OK: 0x" << (unsigned long)rv << endl;
 
+	const char  *pLabel = "VeraCrypt secret1";
 	CK_OBJECT_HANDLE hObjectTokenPrivate;
-	rv = createDataObjectMinimal(hSession, ON_TOKEN, IS_PRIVATE, hObjectTokenPrivate);
+	rv = createDataObjectMinimal(hSession, ON_TOKEN, IS_PRIVATE, hObjectTokenPrivate, (CK_UTF8CHAR_PTR)pLabel);
 	assert(rv == CKR_OK);
 
-	const char  *pLabel = "Label modified via C_SetAttributeValue";
 	CK_ATTRIBUTE attribs[] = {
 		{ CKA_LABEL, (CK_UTF8CHAR_PTR)pLabel, (CK_ULONG)strlen(pLabel) }
 	};
-
-	rv = C_SetAttributeValue(hSession, hObjectTokenPrivate, &attribs[0], 1);
-	assert(rv == CKR_OK);
 
 	rv = p11->C_FindObjectsInit(hSession, &attribs[0], 1);	//1이면 attribute에 지정된 속성을 검색하고 0이면 이에 상관없이 모든 object를 찾는다
 	assert(rv == CKR_OK);
@@ -69,10 +66,9 @@ int main(int argc, char* argv[]) {
 	return 0;
 }
 
-CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject)
+CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BBOOL bPrivate, CK_OBJECT_HANDLE &hObject, CK_UTF8CHAR_PTR label)
 {
 	CK_OBJECT_CLASS cClass = CKO_DATA;
-	CK_UTF8CHAR label[] = "A data object";
 	CK_ATTRIBUTE objTemplate[] = {
 		// Common
 		{ CKA_CLASS, &cClass, sizeof(cClass) },
@@ -81,7 +77,7 @@ CK_RV createDataObjectMinimal(CK_SESSION_HANDLE hSession, CK_BBOOL bToken, CK_BB
 		{ CKA_TOKEN, &bToken, sizeof(bToken) },
 		{ CKA_PRIVATE, &bPrivate, sizeof(bPrivate) },
 		//CKA_MODIFIABLE
-		{ CKA_LABEL, label, sizeof(label)-1 },
+		{ CKA_LABEL, label, (CK_ULONG)strlen((char*)label) },
 		//CKA_COPYABLE
 
 		// Data
