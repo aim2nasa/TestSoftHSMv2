@@ -1,4 +1,5 @@
 #include <iostream>
+#include <assert.h>
 #include "library.h"
 
 using namespace std;
@@ -43,12 +44,15 @@ int main(int argc, char* argv[]) {
 			CK_OBJECT_HANDLE hObjectTokenPrivate;
 			createDataObjectMinimal(hSession, ON_TOKEN, IS_PRIVATE, hObjectTokenPrivate);
 
-			const char  *pLabel = "MyToken 1";
+			const char  *pLabel = "Label modified via C_SetAttributeValue";
 			CK_ATTRIBUTE attribs[] = {
 				{ CKA_LABEL, (CK_UTF8CHAR_PTR)pLabel, (CK_ULONG)strlen(pLabel) }
 			};
 
-			rv = p11->C_FindObjectsInit(hSession, &attribs[0], 0);
+			rv=C_SetAttributeValue(hSession, hObjectTokenPrivate, &attribs[0], 1);
+			assert(rv = CKR_OK);
+
+			rv = p11->C_FindObjectsInit(hSession, &attribs[0], 1);
 			if (rv == CKR_OK) {
 				cout << hex << "FindObject Init OK: 0x" << (unsigned long)rv << endl;
 
