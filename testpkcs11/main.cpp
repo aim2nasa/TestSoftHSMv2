@@ -4,8 +4,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	if (argc < 3) {
-		cout << "usage: testpkcs11 <soPin> <label>" << endl;
+	if (argc < 4) {
+		cout << "usage: testpkcs11 <soPin> <label> <userPin>" << endl;
 		return -1;
 	}
 
@@ -51,6 +51,13 @@ int main(int argc, char* argv[]) {
 	rv = p11->C_Login(hSession, CKU_SO, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin));
 	if (rv != CKR_OK) {
 		cout << "ERROR: C_Login: 0x" << hex << rv << endl;
+		return -1;
+	}
+
+	char *userPin = argv[3];
+	rv = p11->C_InitPIN(hSession, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
+	if (rv != CKR_OK) {
+		cout << "ERROR: C_InitPIN: 0x" << hex << rv << endl;
 		return -1;
 	}
 
