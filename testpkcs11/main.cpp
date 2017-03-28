@@ -36,6 +36,13 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
+	CK_SESSION_HANDLE hSession;
+	rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, &hSession);
+	if (rv != CKR_OK) {
+		cout << "ERROR: C_OpenSession: 0x" << hex << rv << endl;
+		return -1;
+	}
+
 	unloadLib(module);
 	cout << "end of testpkcs11" << endl;
 	return 0;
