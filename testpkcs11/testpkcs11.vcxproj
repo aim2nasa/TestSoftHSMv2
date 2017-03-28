@@ -102,13 +102,15 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\common;..\ext\softhsm-2.2.0\include;..\ext\softhsm-2.2.0\include\cryptoki_compat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\ext\softhsm-2.2.0\include;..\ext\softhsm-2.2.0\include\common;..\ext\softhsm-2.2.0\include\cryptoki_compat;..\ext\softhsm-2.2.0\include\win32;..\ext\softhsm-2.2.0\include\object_store;..\ext\softhsm-2.2.0\include\data_mgr;..\ext\softhsm-2.2.0\include\crypto;..\deleteTokenTest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration);..\ext\openssl-1.1.0d\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>convarch.lib;libcrypto.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\bin\$(ProjectName)\$(Platform)\$(Configuration)</Command>
@@ -140,15 +142,17 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\common;..\ext\softhsm-2.2.0\include;..\ext\softhsm-2.2.0\include\cryptoki_compat;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\common;..\ext\softhsm-2.2.0\include;..\ext\softhsm-2.2.0\include\common;..\ext\softhsm-2.2.0\include\cryptoki_compat;..\ext\softhsm-2.2.0\include\win32;..\ext\softhsm-2.2.0\include\object_store;..\ext\softhsm-2.2.0\include\data_mgr;..\ext\softhsm-2.2.0\include\crypto;..\deleteTokenTest;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration);..\ext\openssl-1.1.0d\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>convarch.lib;libcrypto.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\bin\$(ProjectName)\$(Platform)\$(Configuration)</Command>
@@ -156,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\library.cpp" />
+    <ClCompile Include="..\deleteTokenTest\helper.cpp" />
     <ClCompile Include="deleteToken.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

@@ -24,6 +24,9 @@
     <ClCompile Include="deleteToken.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="..\deleteTokenTest\helper.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deleteToken.h">
