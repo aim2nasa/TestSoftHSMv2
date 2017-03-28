@@ -8,7 +8,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
 	if (argc < 3) {
-		cout << "usage: deleteKeyTest <serial> <label>" << endl;
+		cout << "usage: deleteTokenTest <serial> <label>" << endl;
 		return -1;
 	}
 
