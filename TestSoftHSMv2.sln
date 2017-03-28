@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "deleteKeyTest", "deleteKeyT
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "privObjTest", "privObjTest\privObjTest.vcxproj", "{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testpkcs11", "testpkcs11\testpkcs11.vcxproj", "{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -61,6 +63,12 @@ Global
 		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Release|Win32.ActiveCfg = Release|Win32
 		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Release|Win32.Build.0 = Release|Win32
 		{5532D543-CD2E-4A9E-9382-D6C09FBC5F4C}.Release|x64.ActiveCfg = Release|x64
+		{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}.Debug|Win32.Build.0 = Debug|Win32
+		{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}.Debug|x64.ActiveCfg = Debug|x64
+		{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}.Release|Win32.ActiveCfg = Release|Win32
+		{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}.Release|Win32.Build.0 = Release|Win32
+		{55ABBF0A-9F6C-4EE2-94C0-82CD0297D51A}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
