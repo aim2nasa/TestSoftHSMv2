@@ -156,7 +156,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\common\library.cpp" />
+    <ClCompile Include="deleteToken.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="deleteToken.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

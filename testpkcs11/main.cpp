@@ -1,5 +1,6 @@
 #include <iostream>
 #include "library.h"
+#include "deleteToken.h"
 
 using namespace std;
 
@@ -60,6 +61,8 @@ int main(int argc, char* argv[]) {
 		cout << "ERROR: C_InitPIN: 0x" << hex << rv << endl;
 		return -1;
 	}
+
+	deleteToken(NULL_PTR, label);
 
 	unloadLib(module);
 	cout << "end of testpkcs11" << endl;
