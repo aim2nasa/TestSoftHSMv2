@@ -43,6 +43,12 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 
+	rv = p11->C_Login(hSession, CKU_SO, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin));
+	if (rv != CKR_OK) {
+		cout << "ERROR: C_Login: 0x" << hex << rv << endl;
+		return -1;
+	}
+
 	unloadLib(module);
 	cout << "end of testpkcs11" << endl;
 	return 0;
