@@ -30,7 +30,12 @@ int main(int argc, char* argv[]) {
 
 	char *soPin = argv[1];
 	char *label = argv[2];
-	rv = p11->C_InitToken(slotID, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin), (CK_UTF8CHAR_PTR)label);
+
+	CK_UTF8CHAR paddedLabel[32];
+	memset(paddedLabel, ' ', sizeof(paddedLabel));
+	memcpy(paddedLabel, label, strlen(label));
+
+	rv = p11->C_InitToken(slotID, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin), paddedLabel);
 	if (rv != CKR_OK) {
 		cout << "ERROR: C_InitToken: 0x" << hex << rv << endl;
 		return -1;
