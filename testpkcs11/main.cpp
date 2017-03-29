@@ -23,6 +23,7 @@ int main(int argc, char* argv[]) {
 	char *label = argv[2];
 	char *userPin = argv[3];
 
+	//토큰을 생성한다 (세션 오픈 포함)
 	CK_SESSION_HANDLE hSession;
 	int nRtn = 0;;
 	if ((nRtn = createToken(p11, &hSession, soPin, label, userPin)) != 0) {
@@ -31,6 +32,7 @@ int main(int argc, char* argv[]) {
 	}
 	cout << "token("<<label<<") created" << endl;
 
+	//생성된 토큰을 삭제한다
 	if ( (nRtn=deleteToken(NULL_PTR, label)) != 0) {
 		cout << "ERROR: deleteToken(," << label << ")=" << nRtn << endl;
 		return -1;
