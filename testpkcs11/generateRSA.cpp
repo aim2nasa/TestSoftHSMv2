@@ -15,7 +15,7 @@ int generateRsaKeyPair(CK_SESSION_HANDLE hSession, CK_BBOOL bTokenPuk, CK_BBOOL 
 	CK_ATTRIBUTE pukAttribs[] = {
 		{ CKA_TOKEN, &bTokenPuk, sizeof(bTokenPuk) },
 		{ CKA_PRIVATE, &bPrivatePuk, sizeof(bPrivatePuk) },
-		{ CKA_ENCRYPT, &bFalse, sizeof(bFalse) },
+		{ CKA_ENCRYPT, &bTrue, sizeof(bTrue) },
 		{ CKA_VERIFY, &bTrue, sizeof(bTrue) },
 		{ CKA_WRAP, &bFalse, sizeof(bFalse) },
 		{ CKA_MODULUS_BITS, &bits, sizeof(bits) },
@@ -27,7 +27,7 @@ int generateRsaKeyPair(CK_SESSION_HANDLE hSession, CK_BBOOL bTokenPuk, CK_BBOOL 
 		{ CKA_SUBJECT, &subject[0], sizeof(subject) },
 		{ CKA_ID, &id[0], sizeof(id) },
 		{ CKA_SENSITIVE, &bTrue, sizeof(bTrue) },
-		{ CKA_DECRYPT, &bFalse, sizeof(bFalse) },
+		{ CKA_DECRYPT, &bTrue, sizeof(bTrue) },
 		{ CKA_SIGN, &bTrue, sizeof(bTrue) },
 		{ CKA_UNWRAP, &bFalse, sizeof(bFalse) }
 	};
