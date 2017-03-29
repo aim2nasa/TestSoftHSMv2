@@ -165,11 +165,13 @@
     <ClCompile Include="deleteToken.cpp" />
     <ClCompile Include="generateRSA.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="rsaEncryptDecrypt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="createToken.h" />
     <ClInclude Include="deleteToken.h" />
     <ClInclude Include="generateRSA.h" />
+    <ClInclude Include="rsaEncryptDecrypt.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
