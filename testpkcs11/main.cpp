@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
 
 	//RSA Key pair를 생성한다
 	CK_OBJECT_HANDLE hPuk,hPrk;
-	if ((nRtn = generateRsaKeyPair(hSession, IN_SESSION, IS_PUBLIC, IN_SESSION, IS_PUBLIC, &hPuk, &hPrk)) != 0) {
+	if ((nRtn = generateRsaKeyPair(hSession, ON_TOKEN, IS_PUBLIC, ON_TOKEN, IS_PUBLIC, &hPuk, &hPrk)) != 0) {
 		cout << "ERROR: generateRSA=" << nRtn << endl;
 		return -1;
 	}
