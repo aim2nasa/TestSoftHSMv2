@@ -161,10 +161,12 @@
   <ItemGroup>
     <ClCompile Include="..\common\library.cpp" />
     <ClCompile Include="..\deleteTokenTest\helper.cpp" />
+    <ClCompile Include="createToken.cpp" />
     <ClCompile Include="deleteToken.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="createToken.h" />
     <ClInclude Include="deleteToken.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
