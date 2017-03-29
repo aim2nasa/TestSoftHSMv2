@@ -1,6 +1,7 @@
 #include <iostream>
 #include "library.h"
 #include "createToken.h"
+#include "generateRSA.h"
 #include "deleteToken.h"
 
 using namespace std;
@@ -31,6 +32,13 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 	cout << "token("<<label<<") created" << endl;
+
+	//RSA Key pair를 생성한다
+	CK_OBJECT_HANDLE hPuk,hPrk;
+	if ((nRtn = generateRsaKeyPair(hSession, IN_SESSION, IS_PUBLIC, IN_SESSION, IS_PUBLIC, &hPuk, &hPrk)) != 0) {
+		cout << "ERROR: generateRSA=" << nRtn << endl;
+		return -1;
+	}
 
 	//생성된 토큰을 삭제한다
 	if ( (nRtn=deleteToken(NULL_PTR, label)) != 0) {

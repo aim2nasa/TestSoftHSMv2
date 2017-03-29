@@ -30,12 +30,18 @@
     <ClCompile Include="createToken.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="generateRSA.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="deleteToken.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="createToken.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="generateRSA.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

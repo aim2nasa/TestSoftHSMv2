@@ -110,7 +110,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration);..\ext\openssl-1.1.0d\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>convarch.lib;libcrypto.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>convarch.lib;libcrypto.lib;crypt32.lib;ws2_32.lib;softhsm2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\bin\$(ProjectName)\$(Platform)\$(Configuration)</Command>
@@ -152,7 +152,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration);..\ext\openssl-1.1.0d\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>convarch.lib;libcrypto.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>convarch.lib;libcrypto.lib;crypt32.lib;ws2_32.lib;softhsm2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy ..\ext\softhsm-2.2.0\lib\$(Platform)\$(Configuration)\softhsm2.dll ..\bin\$(ProjectName)\$(Platform)\$(Configuration)</Command>
@@ -163,11 +163,13 @@
     <ClCompile Include="..\deleteTokenTest\helper.cpp" />
     <ClCompile Include="createToken.cpp" />
     <ClCompile Include="deleteToken.cpp" />
+    <ClCompile Include="generateRSA.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="createToken.h" />
     <ClInclude Include="deleteToken.h" />
+    <ClInclude Include="generateRSA.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
