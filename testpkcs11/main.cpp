@@ -48,6 +48,7 @@ int main(int argc, char* argv[]) {
 		cout << "ERROR: rsaEncryptDecrypt=" << nRtn << endl;
 		return -1;
 	}
+	cout << "RSA Encrypt/Decrypt tested ok" << endl;
 
 	//생성된 토큰을 삭제한다
 	if ( (nRtn=deleteToken(NULL_PTR, label)) != 0) {
