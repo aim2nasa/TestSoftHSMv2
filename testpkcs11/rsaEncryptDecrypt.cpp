@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <memory.h>
 
-void rsaEncryptDecrypt(CK_MECHANISM_TYPE mechanismType, CK_SESSION_HANDLE hSession, CK_OBJECT_HANDLE hPublicKey, CK_OBJECT_HANDLE hPrivateKey)
+int rsaEncryptDecrypt(CK_MECHANISM_TYPE mechanismType, CK_SESSION_HANDLE hSession, CK_OBJECT_HANDLE hPublicKey, CK_OBJECT_HANDLE hPrivateKey)
 {
 	CK_MECHANISM mechanism = { mechanismType, NULL_PTR, 0 };
 	CK_RSA_PKCS_OAEP_PARAMS oaepParams = { CKM_SHA_1, CKG_MGF1_SHA1, 1, NULL_PTR, 0 };
@@ -20,18 +20,20 @@ void rsaEncryptDecrypt(CK_MECHANISM_TYPE mechanismType, CK_SESSION_HANDLE hSessi
 	}
 
 	rv = C_EncryptInit(hSession, &mechanism, hPublicKey);
-	assert(rv == CKR_OK);
+	if (rv != CKR_OK) return (int)rv;
 
 	ulCipherTextLen = sizeof(cipherText);
 	rv = C_Encrypt(hSession, plainText, sizeof(plainText), cipherText, &ulCipherTextLen);
-	assert(rv == CKR_OK);
+	if (rv != CKR_OK) return (int)rv;
 
 	rv = C_DecryptInit(hSession, &mechanism, hPrivateKey);
-	assert(rv == CKR_OK);
+	if (rv != CKR_OK) return (int)rv;
 
 	ulRecoveredTextLen = sizeof(recoveredText);
 	rv = C_Decrypt(hSession, cipherText, ulCipherTextLen, recoveredText, &ulRecoveredTextLen);
-	assert(rv == CKR_OK);
+	if (rv != CKR_OK) return (int)rv;
 
-	assert(memcmp(plainText, &recoveredText[ulRecoveredTextLen - sizeof(plainText)], sizeof(plainText)) == 0);
+	if (memcmp(plainText, &recoveredText[ulRecoveredTextLen - sizeof(plainText)], sizeof(plainText)) !=0) return -1;
+
+	return 0;
 }

@@ -44,7 +44,10 @@ int main(int argc, char* argv[]) {
 	cout << "RSA key pair generated" << endl;
 
 	//Encrypt(RSA Pub키)하고 Decrypt(RSA Priv키)하여 결과가 동일한지를 검증하는 테스트
-	rsaEncryptDecrypt(CKM_RSA_PKCS, hSession, hPuk, hPrk);
+	if ((nRtn=rsaEncryptDecrypt(CKM_RSA_PKCS, hSession, hPuk, hPrk)) != 0) {
+		cout << "ERROR: rsaEncryptDecrypt=" << nRtn << endl;
+		return -1;
+	}
 
 	//생성된 토큰을 삭제한다
 	if ( (nRtn=deleteToken(NULL_PTR, label)) != 0) {
