@@ -23,8 +23,9 @@ int main(int argc, char* argv[]) {
 	char *label = argv[2];
 	char *userPin = argv[3];
 
+	CK_SESSION_HANDLE hSession;
 	int nRtn = 0;;
-	if ( (nRtn = createToken(p11, soPin, label, userPin)) != 0) {
+	if ((nRtn = createToken(p11, &hSession, soPin, label, userPin)) != 0) {
 		cout << "ERROR: createToken(" <<soPin<<","<<label<<","<<userPin<<")="<<nRtn<< endl;
 		return -1;
 	}

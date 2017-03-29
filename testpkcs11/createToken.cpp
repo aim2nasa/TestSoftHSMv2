@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int createToken(CK_FUNCTION_LIST_PTR p11,char *soPin,char *label,char *userPin)
+int createToken(CK_FUNCTION_LIST_PTR p11, CK_SESSION_HANDLE *pSession, char *soPin, char *label, char *userPin)
 {
 	CK_ULONG ulSlotCount;
 	CK_RV rv = p11->C_GetSlotList(CK_FALSE, NULL_PTR, &ulSlotCount);
@@ -26,20 +26,19 @@ int createToken(CK_FUNCTION_LIST_PTR p11,char *soPin,char *label,char *userPin)
 		return -1;
 	}
 
-	CK_SESSION_HANDLE hSession;
-	rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, &hSession);
+	rv = p11->C_OpenSession(slotID, CKF_SERIAL_SESSION | CKF_RW_SESSION, NULL_PTR, NULL_PTR, pSession);
 	if (rv != CKR_OK) {
 		cout << "ERROR: C_OpenSession: 0x" << hex << rv << endl;
 		return -1;
 	}
 
-	rv = p11->C_Login(hSession, CKU_SO, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin));
+	rv = p11->C_Login(*pSession, CKU_SO, (CK_UTF8CHAR_PTR)soPin, (CK_ULONG)strlen(soPin));
 	if (rv != CKR_OK) {
 		cout << "ERROR: C_Login: 0x" << hex << rv << endl;
 		return -1;
 	}
 
-	rv = p11->C_InitPIN(hSession, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
+	rv = p11->C_InitPIN(*pSession, (CK_UTF8CHAR_PTR)userPin, (CK_ULONG)strlen(userPin));
 	if (rv != CKR_OK) {
 		cout << "ERROR: C_InitPIN: 0x" << hex << rv << endl;
 		return -1;
