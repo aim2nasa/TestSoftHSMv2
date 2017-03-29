@@ -45,7 +45,17 @@ int main(int argc, char* argv[]) {
 
 	//Encrypt(RSA Pub키)하고 Decrypt(RSA Priv키)하여 결과가 동일한지를 검증하는 테스트
 	if ((nRtn=rsaEncryptDecrypt(CKM_RSA_PKCS, hSession, hPuk, hPrk)) != 0) {
-		cout << "ERROR: rsaEncryptDecrypt=" << nRtn << endl;
+		cout << "ERROR: rsaEncryptDecrypt(CKM_RSA_PKCS)=" << nRtn << endl;
+		return -1;
+	}
+
+	if ((nRtn = rsaEncryptDecrypt(CKM_RSA_X_509, hSession, hPuk, hPrk)) != 0) {
+		cout << "ERROR: rsaEncryptDecrypt(CKM_RSA_X_509)=" << nRtn << endl;
+		return -1;
+	}
+
+	if ((nRtn = rsaEncryptDecrypt(CKM_RSA_PKCS_OAEP, hSession, hPuk, hPrk)) != 0) {
+		cout << "ERROR: rsaEncryptDecrypt(CKM_RSA_PKCS_OAEP)=" << nRtn << endl;
 		return -1;
 	}
 	cout << "RSA Encrypt/Decrypt tested ok" << endl;
