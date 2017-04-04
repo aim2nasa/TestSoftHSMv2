@@ -2,6 +2,7 @@
 #include "library.h"
 #include "createToken.h"
 #include "generateRSA.h"
+#include "signVerify.h"
 #include "rsaEncryptDecrypt.h"
 #include "deleteToken.h"
 
@@ -42,6 +43,13 @@ int main(int argc, char* argv[]) {
 		return -1;
 	}
 	cout << "RSA key pair generated" << endl;
+
+	//Sign하고 Sign에 대해서 verify
+	if ((nRtn = signVerifySingle(CKM_RSA_PKCS, hSession, hPuk, hPrk)) != 0) {
+		cout << "ERROR: signVerifySingle=" << nRtn << endl;
+		return -1;
+	}
+	cout << "sign and verified" << endl;
 
 	//Encrypt(RSA Pub키)하고 Decrypt(RSA Priv키)하여 결과가 동일한지를 검증하는 테스트
 	if ((nRtn=rsaEncryptDecrypt(CKM_RSA_PKCS, hSession, hPuk, hPrk)) != 0) {
