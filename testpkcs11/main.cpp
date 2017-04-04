@@ -45,8 +45,8 @@ int main(int argc, char* argv[]) {
 	cout << "RSA key pair generated" << endl;
 
 	//Sign하고 Sign에 대해서 verify
-	if ((nRtn = signVerifySingle(CKM_RSA_PKCS, hSession, hPuk, hPrk)) != 0) {
-		cout << "ERROR: signVerifySingle=" << nRtn << endl;
+	if ((nRtn = signVerifyAll(hSession, hPuk, hPrk)) != 0) {
+		cout << "ERROR: signVerifyAll=" << nRtn << endl;
 		return -1;
 	}
 	cout << "sign and verified" << endl;

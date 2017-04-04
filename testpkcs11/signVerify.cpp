@@ -118,3 +118,32 @@ int signVerifyMulti(CK_MECHANISM_TYPE mechanismType, CK_SESSION_HANDLE hSession,
 	}
 	return 0;
 }
+
+int signVerifyAll(CK_SESSION_HANDLE hSession, CK_OBJECT_HANDLE hPublicKey, CK_OBJECT_HANDLE hPrivateKey)
+{
+	int nRtn = 0;
+	if ((nRtn = signVerifySingle(CKM_RSA_PKCS , hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_RSA_X_509, hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+
+	if ((nRtn = signVerifySingle(CKM_SHA1_RSA_PKCS  , hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA224_RSA_PKCS, hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA256_RSA_PKCS, hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA384_RSA_PKCS, hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA512_RSA_PKCS, hSession, hPublicKey, hPrivateKey)) != 0) return nRtn;
+
+	CK_RSA_PKCS_PSS_PARAMS params[] = {
+		{ CKM_SHA_1, CKG_MGF1_SHA1, 0 },
+		{ CKM_SHA224, CKG_MGF1_SHA224, 28 },
+		{ CKM_SHA256, CKG_MGF1_SHA256, 32 },
+		{ CKM_SHA384, CKG_MGF1_SHA384, 0 },
+		{ CKM_SHA512, CKG_MGF1_SHA512, 0 }
+	};
+
+	if ((nRtn = signVerifySingle(CKM_SHA1_RSA_PKCS_PSS  , hSession, hPublicKey, hPrivateKey, &params[0], sizeof(params[0]))) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA224_RSA_PKCS_PSS, hSession, hPublicKey, hPrivateKey, &params[1], sizeof(params[1]))) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA256_RSA_PKCS_PSS, hSession, hPublicKey, hPrivateKey, &params[2], sizeof(params[2]))) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA384_RSA_PKCS_PSS, hSession, hPublicKey, hPrivateKey, &params[3], sizeof(params[3]))) != 0) return nRtn;
+	if ((nRtn = signVerifySingle(CKM_SHA512_RSA_PKCS_PSS, hSession, hPublicKey, hPrivateKey, &params[4], sizeof(params[4]))) != 0) return nRtn;
+
+	return 0;
+}
